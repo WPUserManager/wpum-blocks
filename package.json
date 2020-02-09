@@ -1,0 +1,35 @@
+{
+	"name": "wpum-blocks",
+	"version": "1.0.0",
+	"homepage": "https://wpusermanager.com",
+	"author": "https://wpusermanager.com",
+	"description": "WP User Manager component that registers custom blocks.",
+	"license": "GPLv2+",
+	"scripts": {
+		"build": "wp-scripts build",
+		"check-engines": "wp-scripts check-engines",
+		"check-licenses": "wp-scripts check-licenses --production",
+		"lint:css": "wp-scripts lint-style '**/*.css'",
+		"lint:js": "wp-scripts lint-js 'src/*.js'",
+		"lint:pkg-json": "wp-scripts lint-pkg-json .",
+		"start": "wp-scripts start",
+		"test:e2e": "wp-scripts test-e2e",
+		"test:unit": "wp-scripts test-unit-js"
+	},
+	"dependencies": {
+		"@wordpress/scripts": "3.1.0",
+		"axios": "^0.19.0",
+		"lodash": "^4.17.15"
+	},
+	"devDependencies": {
+		"css-loader": "^3.2.0",
+		"extract-loader": "^3.1.0",
+		"file-loader": "^4.2.0",
+		"node-sass": "^4.13.0",
+		"postcss-loader": "^3.0.0",
+		"postcss-preset-env": "^6.7.0",
+		"sass-loader": "^8.0.0",
+		"webpack": "^4.41.2",
+		"webpack-cli": "^3.3.9"
+	}
+}

@@ -1,0 +1,50 @@
+<?php
+/**
+ * Helper methods for running the blocks functionalities.
+ *
+ * @package     wpum-blocks
+ * @copyright   Copyright (c) 2020, WP User Manager
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.1.0
+ */
+
+namespace WPUserManagerBlocks;
+
+use WPUserManagerBlocks\Blocks\LoginForm;
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Helper methods for running the blocks.
+ */
+class Loader {
+
+	public function init() {
+		if ( ! function_exists( 'register_block_type' ) ) {
+			return;
+		}
+
+		add_action( 'init', array( $this, 'register' ) );
+	}
+
+	/**
+	 * Register server side blocks for the editor.
+	 */
+	public function register() {
+		( new LoginForm() )->register();
+	}
+
+	/**
+	 * Get the js variables required for the block editor.
+	 *
+	 * @return array
+	 */
+	public function get_js_vars() {
+		return [
+			'wpum_svg_logo' => WPUM_PLUGIN_URL . 'assets/images/logo.svg',
+			'ajax'          => admin_url( 'admin-ajax.php' ),
+			'blocks'        => apply_filters( 'wpum_blocks', [] ),
+		];
+	}
+}

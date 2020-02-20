@@ -10,6 +10,7 @@
 
 namespace WPUserManagerBlocks;
 
+use WPUserManagerBlocks\Blocks\AccountPage;
 use WPUserManagerBlocks\Blocks\LoginForm;
 use WPUserManagerBlocks\Blocks\LoginLink;
 use WPUserManagerBlocks\Blocks\LogoutLink;
@@ -41,6 +42,8 @@ class Loader {
 		( new PasswordRecoveryForm() )->register();
 		( new LoginLink() )->register();
 		( new LogoutLink() )->register();
+		( new AccountPage() )->register();
+		( new ProfilePage() )->register();
 	}
 
 	/**

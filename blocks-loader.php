@@ -120,10 +120,10 @@ add_action( 'render_block', 'renderBlocksFindingAttrs' );
  *
  * @return string $block_content Modified Block Content.
  */
-function renderBlocksFindingAttrs( $block_content, $block )
+function renderBlocksFindingAttrs( $block )
 {
 	$attrs = $block['attrs'];
-	$block_content = $this->removeBlocksMatchingCriteria( $attrs, $block_content );
+	$block_content = removeBlocksMatchingCriteria( $attrs, $block_content );
 
 	return $block_content;
 }

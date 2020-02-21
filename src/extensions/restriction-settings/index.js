@@ -9,7 +9,18 @@ const { __ } = wp.i18n;
 
 // Disable restriction controls on the following blocks...
 // * Add to the array... i.e ["core/paragraph", "core/image"]
-const disableRestrictionControlsOnTheseBlocks = [];
+const disableRestrictionControlsOnTheseBlocks = [
+	"wpum/account-page",
+	"wpum/login-form",
+	"wpum/login-link",
+	"wpum/logout-form",
+	"wpum/password-recovery-form",
+	"wpum/profile-card",
+	"wpum/profile-page",
+	"wpum/recently-registered-users",
+	"wpum/password-recovery-form",
+	"wpum/user-directory"
+];
 
 // Available restriction control options
 const restrictTypeOptions = [
@@ -107,7 +118,7 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 			<Fragment>
 				<BlockEdit {...props} />
 				<InspectorControls>
-					<PanelBody title={__("WP User Manager")} initialOpen={true}>
+					<PanelBody title={__("WP User Manager")}>
 						<SelectControl
 							// label={__("How do you want to hide this block?")}
 							value={wpum_restrict_type}

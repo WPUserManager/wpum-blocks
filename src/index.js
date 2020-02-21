@@ -8,6 +8,7 @@ import "./blocks/block-login-form/index.js";
 import "./blocks/block-login-link/index.js";
 import "./blocks/block-logout-link/index.js";
 import "./blocks/block-password-recovery-form/index.js";
+import "./blocks/block-profile-card/index.js";
 import "./blocks/block-profile-page/index.js";
 import "./blocks/block-registration-form/index.js";
 

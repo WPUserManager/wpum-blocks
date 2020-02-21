@@ -11,11 +11,12 @@
 namespace WPUserManagerBlocks;
 
 use WPUserManagerBlocks\Blocks\AccountPage;
-use WPUserManagerBlocks\Blocks\ProfilePage;
 use WPUserManagerBlocks\Blocks\LoginForm;
 use WPUserManagerBlocks\Blocks\LoginLink;
 use WPUserManagerBlocks\Blocks\LogoutLink;
 use WPUserManagerBlocks\Blocks\PasswordRecoveryForm;
+use WPUserManagerBlocks\Blocks\ProfilePage;
+use WPUserManagerBlocks\Blocks\ProfileCard;
 use WPUserManagerBlocks\Blocks\RegistrationForm;
 
 // Exit if accessed directly.
@@ -38,13 +39,18 @@ class Loader {
 	 * Register server side blocks for the editor.
 	 */
 	public function register() {
+		( new AccountPage() )->register();
 		( new LoginForm() )->register();
-		( new RegistrationForm() )->register();
-		( new PasswordRecoveryForm() )->register();
 		( new LoginLink() )->register();
 		( new LogoutLink() )->register();
-		( new AccountPage() )->register();
+		( new PasswordRecoveryForm() )->register();
+		( new ProfileCard() )->register();
 		( new ProfilePage() )->register();
+		( new RegistrationForm() )->register();
+
+
+
+
 	}
 
 	/**

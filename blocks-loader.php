@@ -75,3 +75,38 @@ add_action('rest_api_init', function () use ( $loader ) {
 		 )
 	);
 });
+
+/**
+ * Add Custom Attributes needed for src/extensions/ to all blocks
+ *
+ * This is needed because serverSideRender component isn’t able to handle the extra props passed to it.
+ *
+ * src: https://github.com/Codeinwp/blocks-css/pull/5/files
+ */
+add_action( 'wp_loaded', function () use ( $loader ) {
+
+	$registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
+
+	foreach( $registered_blocks as $name => $block ) {
+
+		$block->attributes['wpum_restrict_type'] = array(
+			'type'    => 'string',
+			'default' => "wpum_restrict_type_state",
+		);
+		$block->attributes['wpum_hide_state_in'] = array(
+			'type'    => 'boolean',
+			'default' => false,
+		);
+		$block->attributes['wpum_hide_state_out'] = array(
+			'type'    => 'boolean',
+			'default' => false,
+		);
+		$block->attributes['wpum_hide_users']    = array(
+			'type'    => 'array',
+		);
+		$block->attributes['wpum_hide_roles']    = array(
+			'type'    => 'array',
+		);
+	}
+
+}, 100);

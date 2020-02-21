@@ -1,14 +1,14 @@
 const { __ } = wp.i18n;
-const el = wp.element.createElement;
+const { serverSideRender } = wp;
 
-import { ServerSideRender } from "@wordpress/components";
+const el = wp.element.createElement;
 
 let blockName = "account-page";
 
 // Build the editor settings.
 export default function(props) {
 	return [
-		el(ServerSideRender, {
+		el(serverSideRender, {
 			block: "wpum/" + blockName,
 			attributes: props.attributes
 		})

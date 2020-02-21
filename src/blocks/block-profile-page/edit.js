@@ -1,6 +1,7 @@
 const { __ } = wp.i18n;
-const el = wp.element.createElement;
 const { serverSideRender } = wp;
+
+const el = wp.element.createElement;
 
 let blockName = "profile-page";
 

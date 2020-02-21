@@ -5,7 +5,7 @@ const { serverSideRender } = wp;
 
 const el = wp.element.createElement;
 
-let blockName = "password-recovery-form";
+let blockName = "registration-form";
 
 // Build the editor settings.
 export default function(props) {

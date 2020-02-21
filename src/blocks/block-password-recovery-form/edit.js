@@ -5,13 +5,13 @@ const { serverSideRender } = wp;
 
 const el = wp.element.createElement;
 
-let blockName = "registration-form";
+let blockName = "password-recovery-form";
 
 // Build the editor settings.
 export default function(props) {
 	const { attributes, setAttributes } = props;
 
-	const { psw_link, register_link } = attributes;
+	const { login_link, register_link } = attributes;
 
 	const settings = el(
 		InspectorControls,
@@ -24,11 +24,12 @@ export default function(props) {
 				title: wpum_blocks.blocks[blockName].labels.panel_settings
 			},
 			el(ToggleControl, {
-				label: wpum_blocks.blocks[blockName].attributes.psw_link.label,
-				checked: psw_link,
+				label:
+					wpum_blocks.blocks[blockName].attributes.login_link.label,
+				checked: login_link,
 				onChange: function() {
 					setAttributes({
-						psw_link: !psw_link
+						login_link: !login_link
 					});
 				}
 			}),

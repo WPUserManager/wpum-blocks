@@ -5,7 +5,6 @@ const { PanelBody, ToggleControl, SelectControl } = wp.components;
 const { InspectorControls } = wp.blockEditor;
 const { serverSideRender, apiFetch } = wp;
 
-const { addQueryArgs } = wp.url;
 const el = wp.element.createElement;
 
 let blockName = "profile-card";

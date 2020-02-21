@@ -48,3 +48,30 @@ add_action( 'enqueue_block_editor_assets', function () use ( $loader ) {
 
 	wp_localize_script( 'wpum-blocks', 'wpum_blocks', $loader->get_js_vars() );
 } );
+
+function get_user_roles() {
+	global $wp_roles;
+
+	$roles      = array();
+	$user_roles = $wp_roles->roles;
+
+	foreach ( $user_roles as $key => $role ) {
+		$roles[] = array(
+			'value' => $key,
+			'label' => $role['name'],
+		);
+	}
+
+	return $roles;
+}
+
+add_action('rest_api_init', function () use ( $loader ) {
+	register_rest_route(
+		'wp-user-manager',
+		'user-roles',
+		array(
+			'methods' => 'GET',
+			'callback' => 'get_user_roles'
+		 )
+	);
+});

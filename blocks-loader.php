@@ -110,3 +110,48 @@ add_action( 'wp_loaded', function () use ( $loader ) {
 	}
 
 }, 100);
+
+add_action( 'render_block', 'renderBlocksFindingAttrs' );
+/**
+ * Parse Blocks through render_block fn.
+ *
+ * @param string $block_content Content output per block from Gutenberg.
+ * @param array  $block Array of block contents, attributes etc.
+ *
+ * @return string $block_content Modified Block Content.
+ */
+function renderBlocksFindingAttrs( $block_content, $block )
+{
+	$attrs = $block['attrs'];
+	$block_content = $this->removeBlocksMatchingCriteria( $attrs, $block_content );
+
+	return $block_content;
+}
+
+/**
+ * Hide Block Content where attr matches choice.
+ *
+ * @param array  $attrs Blocks Attributes from the Editor.
+ * @param string $block_content Content output per block from Gutenberg.
+ *
+ * @return string $block_content Modified Block Content.
+ */
+function removeBlocksMatchingCriteria( $attrs, $block_content )
+{
+
+	/**
+	 * TODO: Logic for restricting content dependent on extension.
+	 *
+	 * Attrs to use:
+	 ** wpum_restrict_type - All other attrs are dependent on this one
+	 ** wpum_hide_state_in,
+	 ** wpum_hide_state_out
+	 ** wpum_hide_users
+	 ** wpum_hide_roles
+	 *
+	 * Return:
+	 ** return nothing to hide block
+	 ** return $bock_content to render block
+	 */
+	return $block_content;
+}

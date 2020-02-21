@@ -118,7 +118,10 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 			<Fragment>
 				<BlockEdit {...props} />
 				<InspectorControls>
-					<PanelBody title={__("WP User Manager")}>
+					<PanelBody
+						title={__("WP User Manager - Restriction")}
+						initialOpen={false}
+					>
 						<SelectControl
 							// label={__("How do you want to hide this block?")}
 							value={wpum_restrict_type}
@@ -129,29 +132,6 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 								});
 							}}
 						/>
-						{wpum_restrict_type == "wpum_restrict_type_state" &&
-							!wpum_hide_state_out && (
-								<ToggleControl
-									label={__("Hide from logged in users")}
-									help={
-										!wpum_hide_state_in
-											? __(
-													"Visible to all users.",
-													"wp-user-manager"
-											  )
-											: __(
-													"Hidden from logged in users.",
-													"wp-user-manager"
-											  )
-									}
-									checked={wpum_hide_state_in}
-									onChange={toggleStateIn => {
-										props.setAttributes({
-											wpum_hide_state_in: toggleStateIn
-										});
-									}}
-								/>
-							)}
 
 						{wpum_restrict_type == "wpum_restrict_type_state" &&
 							!wpum_hide_state_in && (
@@ -176,6 +156,31 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 									}}
 								/>
 							)}
+
+						{wpum_restrict_type == "wpum_restrict_type_state" &&
+							!wpum_hide_state_out && (
+								<ToggleControl
+									label={__("Hide from logged in users")}
+									help={
+										!wpum_hide_state_in
+											? __(
+													"Visible to all users.",
+													"wp-user-manager"
+											  )
+											: __(
+													"Hidden from logged in users.",
+													"wp-user-manager"
+											  )
+									}
+									checked={wpum_hide_state_in}
+									onChange={toggleStateIn => {
+										props.setAttributes({
+											wpum_hide_state_in: toggleStateIn
+										});
+									}}
+								/>
+							)}
+
 						{wpum_restrict_type == "wpum_restrict_type_user" && (
 							<SelectControl
 								label={__(

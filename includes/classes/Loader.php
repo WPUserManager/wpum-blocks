@@ -15,6 +15,7 @@ use WPUserManagerBlocks\Blocks\LoginForm;
 use WPUserManagerBlocks\Blocks\LoginLink;
 use WPUserManagerBlocks\Blocks\LogoutLink;
 use WPUserManagerBlocks\Blocks\PasswordRecoveryForm;
+use WPUserManagerBlocks\Blocks\ProfilePage;
 use WPUserManagerBlocks\Blocks\RegistrationForm;
 
 // Exit if accessed directly.

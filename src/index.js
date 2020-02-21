@@ -3,12 +3,14 @@ const { __ } = wp.i18n;
 /**
  * Import blocks.
  */
+import "./blocks/block-account-page/index.js";
 import "./blocks/block-login-form/index.js";
-import "./blocks/block-registration-form/index.js";
-import "./blocks/block-password-recovery-form/index.js";
 import "./blocks/block-login-link/index.js";
 import "./blocks/block-logout-link/index.js";
-import "./blocks/block-account-page/index.js";
+import "./blocks/block-password-recovery-form/index.js";
+import "./blocks/block-profile-page/index.js";
+import "./blocks/block-registration-form/index.js";
+
 import "./style.scss";
 
 // Setup custom icon for the WPUM blocks category.

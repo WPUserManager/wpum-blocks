@@ -11,6 +11,7 @@
 namespace WPUserManagerBlocks;
 
 use WPUserManagerBlocks\Blocks\AccountPage;
+use WPUserManagerBlocks\Blocks\ProfilePage;
 use WPUserManagerBlocks\Blocks\LoginForm;
 use WPUserManagerBlocks\Blocks\LoginLink;
 use WPUserManagerBlocks\Blocks\LogoutLink;

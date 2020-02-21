@@ -2,7 +2,7 @@ const { __ } = wp.i18n;
 /**
  * Import blocks.
  */
-import "./extensions/restriction-settings";
+// import "./extensions/restriction-settings";
 
 /**
  * Import blocks.
@@ -14,6 +14,7 @@ import "./blocks/block-logout-link/index.js";
 import "./blocks/block-password-recovery-form/index.js";
 import "./blocks/block-profile-card/index.js";
 import "./blocks/block-profile-page/index.js";
+import "./blocks/block-recently-registered-users/index.js";
 import "./blocks/block-registration-form/index.js";
 import "./blocks/block-user-directory/index.js";
 

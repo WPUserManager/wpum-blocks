@@ -1,5 +1,3 @@
-// import Inspector from "./inspector";
-
 const { __ } = wp.i18n;
 const { PanelBody, ToggleControl, SelectControl } = wp.components;
 const { InspectorControls } = wp.blockEditor;

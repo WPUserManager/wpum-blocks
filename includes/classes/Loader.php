@@ -15,8 +15,9 @@ use WPUserManagerBlocks\Blocks\LoginForm;
 use WPUserManagerBlocks\Blocks\LoginLink;
 use WPUserManagerBlocks\Blocks\LogoutLink;
 use WPUserManagerBlocks\Blocks\PasswordRecoveryForm;
-use WPUserManagerBlocks\Blocks\ProfilePage;
 use WPUserManagerBlocks\Blocks\ProfileCard;
+use WPUserManagerBlocks\Blocks\ProfilePage;
+use WPUserManagerBlocks\Blocks\RecentlyRegisteredUsers;
 use WPUserManagerBlocks\Blocks\RegistrationForm;
 use WPUserManagerBlocks\Blocks\UserDirectory;
 
@@ -47,6 +48,7 @@ class Loader {
 		( new PasswordRecoveryForm() )->register();
 		( new ProfileCard() )->register();
 		( new ProfilePage() )->register();
+		( new RecentlyRegisteredUsers() )->register();
 		( new RegistrationForm() )->register();
 		( new UserDirectory() )->register();
 	}

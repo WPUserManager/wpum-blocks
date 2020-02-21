@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 class UserDirectory extends AbstractBlock {
 
 	protected $name = 'user-directory';
-	protected $shortcode_function = 'wpum_user_directory';
+	protected $shortcode_function = 'wpum_directory';
 
 	protected function get_labels() {
 		return [

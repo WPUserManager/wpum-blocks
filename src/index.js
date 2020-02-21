@@ -2,7 +2,7 @@ const { __ } = wp.i18n;
 /**
  * Import blocks.
  */
-// import "./extensions/restriction-settings";
+import "./extensions/restriction-settings";
 
 /**
  * Import blocks.

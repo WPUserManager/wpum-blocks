@@ -18,6 +18,7 @@ use WPUserManagerBlocks\Blocks\PasswordRecoveryForm;
 use WPUserManagerBlocks\Blocks\ProfilePage;
 use WPUserManagerBlocks\Blocks\ProfileCard;
 use WPUserManagerBlocks\Blocks\RegistrationForm;
+use WPUserManagerBlocks\Blocks\UserDirectory;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -47,10 +48,7 @@ class Loader {
 		( new ProfileCard() )->register();
 		( new ProfilePage() )->register();
 		( new RegistrationForm() )->register();
-
-
-
-
+		( new UserDirectory() )->register();
 	}
 
 	/**

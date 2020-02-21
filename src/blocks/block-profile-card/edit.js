@@ -1,16 +1,24 @@
-const { __ } = wp.i18n;
-const { PanelBody, ToggleControl } = wp.components;
-const { InspectorControls } = wp.blockEditor;
-const { serverSideRender } = wp;
+// import Inspector from "./inspector";
 
+const { __ } = wp.i18n;
+const { PanelBody, ToggleControl, SelectControl } = wp.components;
+const { InspectorControls } = wp.blockEditor;
+const { serverSideRender, apiFetch } = wp;
+
+const { addQueryArgs } = wp.url;
 const el = wp.element.createElement;
 
 let blockName = "profile-card";
 
+const options = [];
+wp.apiFetch({ path: "/wp/v2/users" }).then(posts =>
+	posts.map(function(user) {
+		options.push({ value: user.id, label: user.name });
+	})
+);
 // Build the editor settings.
 export default function(props) {
 	const { attributes, setAttributes } = props;
-
 	const {
 		user_id,
 		link_to_profile,
@@ -28,6 +36,16 @@ export default function(props) {
 			{
 				title: wpum_blocks.blocks[blockName].labels.panel_settings
 			},
+			el(SelectControl, {
+				label: wpum_blocks.blocks[blockName].attributes.user_id.label,
+				value: user_id,
+				options: options,
+				onChange: function(user_id) {
+					setAttributes({
+						user_id
+					});
+				}
+			}),
 			el(ToggleControl, {
 				label:
 					wpum_blocks.blocks[blockName].attributes.link_to_profile

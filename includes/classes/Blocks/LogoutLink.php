@@ -25,7 +25,6 @@ class LogoutLink extends AbstractBlock {
 		return [
 			'title'          => esc_html__( 'Logout Link', 'wp-user-manager' ),
 			'description'    => esc_html__( 'WP User Manager logout link.', 'wp-user-manager' ),
-			'icon'           => 'admin-links',
 			'keywords'       => [
 				esc_html__( 'logout', 'wp-user-manager' ),
 				esc_html__( 'logout link', 'wp-user-manager' ),

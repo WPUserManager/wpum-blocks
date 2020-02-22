@@ -25,7 +25,6 @@ class PasswordRecoveryForm extends AbstractBlock {
 		return [
 			'title'          => esc_html__( 'Password Recovery Form', 'wp-user-manager' ),
 			'description'    => esc_html__( 'WP User Manager password recovery form.', 'wp-user-manager' ),
-			'icon'           => 'admin-network',
 			'keywords'       => [
 				esc_html__( 'password', 'wp-user-manager' ),
 				esc_html__( 'recovery', 'wp-user-manager' ),

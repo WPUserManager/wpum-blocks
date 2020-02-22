@@ -25,7 +25,6 @@ class RegistrationForm extends AbstractBlock {
 		return [
 			'title'          => esc_html__( 'Registration Form', 'wp-user-manager' ),
 			'description'    => esc_html__( 'WP User Manager registration form.', 'wp-user-manager' ),
-			'icon'           => 'admin-users',
 			'keywords'       => [
 				esc_html__( 'register', 'wp-user-manager' ),
 				esc_html__( 'user register', 'wp-user-manager' ),

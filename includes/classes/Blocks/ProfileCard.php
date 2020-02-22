@@ -25,7 +25,6 @@ class ProfileCard extends AbstractBlock {
 		return [
 			'title'          => esc_html__( 'Profile Card', 'wp-user-manager' ),
 			'description'    => esc_html__( 'WP User Manager user profile card.', 'wp-user-manager' ),
-			'icon'           => 'admin-network',
 			'keywords'       => [
 				esc_html__( 'profile', 'wp-user-manager' ),
 				esc_html__( 'user', 'wp-user-manager' ),

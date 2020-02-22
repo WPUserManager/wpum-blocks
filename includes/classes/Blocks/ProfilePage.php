@@ -23,9 +23,8 @@ class ProfilePage extends AbstractBlock {
 
 	protected function get_labels() {
 		return [
-			'title'          => esc_html__( 'Profile', 'wp-user-manager' ),
-			'description'    => esc_html__( 'WP User Manager profile.', 'wp-user-manager' ),
-			'icon'           => 'admin-users',
+			'title'          => esc_html__( 'Profile Page', 'wp-user-manager' ),
+			'description'    => esc_html__( 'WP User Manager profile page.', 'wp-user-manager' ),
 			'keywords'       => [
 				esc_html__( 'profile', 'wp-user-manager' ),
 				esc_html__( 'user profile', 'wp-user-manager' ),

@@ -25,7 +25,6 @@ class RecentlyRegisteredUsers extends AbstractBlock {
 		return [
 			'title'          => esc_html__( 'Recently Registered', 'wp-user-manager' ),
 			'description'    => esc_html__( 'WP User Manager Recently Registered Users Block.', 'wp-user-manager' ),
-			'icon'           => 'admin-network',
 			'keywords'       => [
 				esc_html__( 'users', 'wp-user-manager' ),
 				esc_html__( 'user', 'wp-user-manager' ),

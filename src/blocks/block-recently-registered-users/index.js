@@ -7,6 +7,7 @@ const { registerBlockType } = wp.blocks;
 
 // Import block editor settings
 import EditBlock from "./edit";
+import icon from "./icon";
 
 let blockName = "recently-registered-users";
 
@@ -14,7 +15,7 @@ let blockName = "recently-registered-users";
 registerBlockType("wpum/" + blockName, {
 	title: wpum_blocks.blocks[blockName].labels.title,
 	description: wpum_blocks.blocks[blockName].labels.description,
-	icon: wpum_blocks.blocks[blockName].labels.icon,
+	icon,
 	category: "wpum",
 	keywords: wpum_blocks.blocks[blockName].labels.keywords,
 	attributes: wpum_blocks.blocks[blockName].attributes,

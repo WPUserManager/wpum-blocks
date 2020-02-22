@@ -25,7 +25,6 @@ class LoginForm extends AbstractBlock {
 		return [
 			'title'          => esc_html__( 'Login Form', 'wp-user-manager' ),
 			'description'    => esc_html__( 'WP User Manager login form.', 'wp-user-manager' ),
-			'icon'           => 'admin-network',
 			'keywords'       => [
 				esc_html__( 'login', 'wp-user-manager' ),
 				esc_html__( 'login form', 'wp-user-manager' ),

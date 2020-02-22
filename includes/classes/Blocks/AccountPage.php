@@ -25,7 +25,6 @@ class AccountPage extends AbstractBlock {
 		return [
 			'title'          => esc_html__( 'Account Page', 'wp-user-manager' ),
 			'description'    => esc_html__( 'WP User Manager account page.', 'wp-user-manager' ),
-			'icon'           => 'lock',
 			'keywords'       => [
 				esc_html__( 'account', 'wp-user-manager' ),
 				esc_html__( 'edit account', 'wp-user-manager' ),

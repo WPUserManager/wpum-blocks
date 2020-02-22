@@ -1,17 +1,16 @@
 const { __ } = wp.i18n;
-const { PanelBody, ToggleControl } = wp.components;
+const { PanelBody, ToggleControl, TextControl } = wp.components;
 const { InspectorControls } = wp.blockEditor;
 const { serverSideRender } = wp;
 
 const el = wp.element.createElement;
 
-let blockName = "login-form";
+let blockName = "recently-registered-users";
 
 // Build the editor settings.
 export default function(props) {
 	const { attributes, setAttributes } = props;
-
-	const { psw_link, register_link } = attributes;
+	const { amount, link_to_profile } = attributes;
 
 	const settings = el(
 		InspectorControls,
@@ -23,23 +22,24 @@ export default function(props) {
 			{
 				title: wpum_blocks.blocks[blockName].labels.panel_settings
 			},
-			el(ToggleControl, {
-				label: wpum_blocks.blocks[blockName].attributes.psw_link.label,
-				checked: psw_link,
-				onChange: function() {
+			el(TextControl, {
+				label: wpum_blocks.blocks[blockName].attributes.amount.label,
+				value: amount,
+				type: "number",
+				onChange: function(amount) {
 					setAttributes({
-						psw_link: !psw_link
+						amount
 					});
 				}
 			}),
 			el(ToggleControl, {
 				label:
-					wpum_blocks.blocks[blockName].attributes.register_link
+					wpum_blocks.blocks[blockName].attributes.link_to_profile
 						.label,
-				checked: register_link,
+				checked: link_to_profile,
 				onChange: function() {
 					setAttributes({
-						register_link: !register_link
+						link_to_profile: !link_to_profile
 					});
 				}
 			})

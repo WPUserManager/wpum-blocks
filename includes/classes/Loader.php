@@ -15,8 +15,11 @@ use WPUserManagerBlocks\Blocks\LoginForm;
 use WPUserManagerBlocks\Blocks\LoginLink;
 use WPUserManagerBlocks\Blocks\LogoutLink;
 use WPUserManagerBlocks\Blocks\PasswordRecoveryForm;
+use WPUserManagerBlocks\Blocks\ProfileCard;
 use WPUserManagerBlocks\Blocks\ProfilePage;
+use WPUserManagerBlocks\Blocks\RecentlyRegisteredUsers;
 use WPUserManagerBlocks\Blocks\RegistrationForm;
+use WPUserManagerBlocks\Blocks\UserDirectory;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -38,13 +41,16 @@ class Loader {
 	 * Register server side blocks for the editor.
 	 */
 	public function register() {
+		( new AccountPage() )->register();
 		( new LoginForm() )->register();
-		( new RegistrationForm() )->register();
-		( new PasswordRecoveryForm() )->register();
 		( new LoginLink() )->register();
 		( new LogoutLink() )->register();
-		( new AccountPage() )->register();
+		( new PasswordRecoveryForm() )->register();
+		( new ProfileCard() )->register();
 		( new ProfilePage() )->register();
+		( new RecentlyRegisteredUsers() )->register();
+		( new RegistrationForm() )->register();
+		( new UserDirectory() )->register();
 	}
 
 	/**

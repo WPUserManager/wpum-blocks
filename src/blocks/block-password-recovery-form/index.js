@@ -8,7 +8,7 @@ const { registerBlockType } = wp.blocks;
 // Import block editor settings
 import EditBlock from './edit';
 
-let blockName = 'registration-form';
+let blockName = 'password-recovery-form';
 
 // Register the block.
 registerBlockType( 'wpum/' + blockName, {

@@ -27,11 +27,11 @@ class PasswordRecoveryForm extends AbstractBlock {
 			'description'    => esc_html__( 'WP User Manager password recovery form.', 'wp-user-manager' ),
 			'icon'           => 'admin-network',
 			'keywords'       => [
-				esc_html__( 'register', 'wp-user-manager' ),
-				esc_html__( 'user register', 'wp-user-manager' ),
-				esc_html__( 'registration', 'wp-user-manager' ),
-				esc_html__( 'user registration', 'wp-user-manager' ),
-				esc_html__( 'registration form', 'wp-user-manager' ),
+				esc_html__( 'password', 'wp-user-manager' ),
+				esc_html__( 'recovery', 'wp-user-manager' ),
+				esc_html__( 'password recovery', 'wp-user-manager' ),
+				esc_html__( 'forgot password', 'wp-user-manager' ),
+				esc_html__( 'forgot', 'wp-user-manager' ),
 			],
 			'panel_settings' => esc_html__( 'Settings', 'wp-user-manager' ),
 		];
@@ -44,15 +44,15 @@ class PasswordRecoveryForm extends AbstractBlock {
 	 */
 	protected function get_attributes() {
 		return [
-			'psw_link'      => [
+			'login_link'      => [
 				'type'    => 'boolean',
 				'default' => true,
-				'label'   => esc_html__( 'Show password reset link', 'wp-user-manager' ),
+				'label'   => esc_html__( 'Show login link', 'wp-user-manager' ),
 			],
 			'register_link' => [
 				'type'    => 'boolean',
 				'default' => true,
-				'label'   => esc_html__( 'Show register link', 'wp-user-manager' ),
+				'label'   => esc_html__( 'Show registration link', 'wp-user-manager' ),
 			],
 		];
 	}

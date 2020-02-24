@@ -83,7 +83,7 @@ add_action('rest_api_init', function () use ( $loader ) {
  *
  * src: https://github.com/Codeinwp/blocks-css/pull/5/files
  */
-add_action( 'wp_loaded', function () use ( $loader ) {
+add_action( 'wp_loaded', function () {
 
 	$registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
 
@@ -111,22 +111,22 @@ add_action( 'wp_loaded', function () use ( $loader ) {
 
 }, 100);
 
-add_action( 'render_block', 'renderBlocksFindingAttrs' );
 /**
  * Parse Blocks through render_block fn.
  *
  * @param string $block_content Content output per block from Gutenberg.
- * @param array  $block Array of block contents, attributes etc.
+ * @param array  $block         Array of block contents, attributes etc.
  *
  * @return string $block_content Modified Block Content.
  */
-function renderBlocksFindingAttrs( $block )
-{
-	$attrs = $block['attrs'];
+function renderBlocksFindingAttrs( $block_content, $block ) {
+	$attrs         = $block['attrs'];
 	$block_content = removeBlocksMatchingCriteria( $attrs, $block_content );
 
 	return $block_content;
 }
+
+add_action( 'render_block', 'renderBlocksFindingAttrs', 10, 2 );
 
 /**
  * Hide Block Content where attr matches choice.

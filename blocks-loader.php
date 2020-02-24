@@ -71,7 +71,10 @@ add_action('rest_api_init', function () use ( $loader ) {
 		'user-roles',
 		array(
 			'methods' => 'GET',
-			'callback' => 'get_user_roles'
+			'callback' => 'get_user_roles',
+			'permission_callback' => function() {
+				return current_user_can('edit_posts');
+			}
 		 )
 	);
 });

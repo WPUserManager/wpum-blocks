@@ -18,6 +18,7 @@ const disableRestrictionControlsOnTheseBlocks = [
 	"wpum/profile-card",
 	"wpum/profile-page",
 	"wpum/recently-registered-users",
+	"wpum/registration-form",
 	"wpum/password-recovery-form",
 	"wpum/user-directory"
 ];

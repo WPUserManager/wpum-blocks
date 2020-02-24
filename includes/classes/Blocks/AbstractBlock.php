@@ -30,7 +30,7 @@ abstract class AbstractBlock {
 	 * @return string
 	 */
 	public function render_callback( $attributes ) {
-		return call_user_func( $this->shortcode_function, $attributes );
+		return call_user_func( apply_filters( 'wpum_blocks_block_callback', $this->shortcode_function, $this->name ), $attributes );
 	}
 
 	public function register() {

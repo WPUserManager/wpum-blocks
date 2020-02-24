@@ -43,6 +43,9 @@ class RegistrationForm extends AbstractBlock {
 	 */
 	protected function get_attributes() {
 		return [
+			'form_id'     => [
+				'type' => 'string',
+			],
 			'psw_link'      => [
 				'type'    => 'boolean',
 				'default' => true,

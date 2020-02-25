@@ -49,7 +49,7 @@ add_action( 'enqueue_block_editor_assets', function () use ( $loader ) {
 	wp_localize_script( 'wpum-blocks', 'wpum_blocks', $loader->get_js_vars() );
 } );
 
-function get_user_roles() {
+function wpum_blocks_get_user_roles() {
 	global $wp_roles;
 
 	$roles      = array();
@@ -65,20 +65,19 @@ function get_user_roles() {
 	return $roles;
 }
 
-add_action('rest_api_init', function () use ( $loader ) {
-	register_rest_route(
-		'wp-user-manager',
-		'user-roles',
-		array(
-			'methods' => 'GET',
-			'callback' => 'get_user_roles',
-			'permission_callback' => function() {
-				return current_user_can('edit_posts');
-			}
-		 )
-	);
-});
+add_action( 'rest_api_init', 'wpum_blocks_register_roles_route' );
 
+function wpum_blocks_register_roles_route() {
+	register_rest_route( 'wp-user-manager', 'user-roles', array(
+		'methods'             => 'GET',
+		'callback'            => 'wpum_blocks_get_user_roles',
+		'permission_callback' => function () {
+			return current_user_can( 'edit_posts' );
+		},
+	) );
+}
+
+add_action( 'wp_loaded', 'wpum_blocks_register_block_attrs', 100 );
 /**
  * Add Custom Attributes needed for src/extensions/ to all blocks
  *
@@ -86,17 +85,16 @@ add_action('rest_api_init', function () use ( $loader ) {
  *
  * src: https://github.com/Codeinwp/blocks-css/pull/5/files
  */
-add_action( 'wp_loaded', function () {
-
+function wpum_blocks_register_block_attrs() {
 	$registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
 
-	foreach( $registered_blocks as $name => $block ) {
+	foreach ( $registered_blocks as $name => $block ) {
 
-		$block->attributes['wpum_restrict_type'] = array(
+		$block->attributes['wpum_restrict_type']  = array(
 			'type'    => 'string',
 			'default' => "wpum_restrict_type_state",
 		);
-		$block->attributes['wpum_hide_state_in'] = array(
+		$block->attributes['wpum_hide_state_in']  = array(
 			'type'    => 'boolean',
 			'default' => false,
 		);
@@ -104,15 +102,14 @@ add_action( 'wp_loaded', function () {
 			'type'    => 'boolean',
 			'default' => false,
 		);
-		$block->attributes['wpum_hide_users']    = array(
-			'type'    => 'array',
+		$block->attributes['wpum_hide_users']     = array(
+			'type' => 'array',
 		);
-		$block->attributes['wpum_hide_roles']    = array(
-			'type'    => 'array',
+		$block->attributes['wpum_hide_roles']     = array(
+			'type' => 'array',
 		);
 	}
-
-}, 100);
+}
 
 /**
  * Parse Blocks through render_block fn.
@@ -122,14 +119,84 @@ add_action( 'wp_loaded', function () {
  *
  * @return string $block_content Modified Block Content.
  */
-function renderBlocksFindingAttrs( $block_content, $block ) {
-	$attrs         = $block['attrs'];
-	$block_content = removeBlocksMatchingCriteria( $attrs, $block_content );
+function wpum_blocks_maybe_restrict_content( $block_content, $block ) {
+	if ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) {
+		return $block_content;
+	}
 
-	return $block_content;
+	$attrs = $block['attrs'];
+
+	if ( isset( $attrs['wpum_restrict_state_in'] ) && $attrs['wpum_restrict_state_in'] && ! is_user_logged_in() ) {
+		return wpum_blocks_get_restricted_message();
+	}
+
+	if ( ! isset( $attrs['wpum_restrict_type'] ) ) {
+		return $block_content;
+	}
+
+	if ( 'wpum_restrict_type_role' === $attrs['wpum_restrict_type'] ) {
+		$allowed_roles = array_map( 'trim', $attrs['wpum_restrict_roles'] );
+		$current_user  = wp_get_current_user();
+		if ( is_user_logged_in() && array_intersect( $current_user->roles, $allowed_roles ) ) {
+			return $block_content;
+		}
+	}
+
+	if ( 'wpum_restrict_type_user' === $attrs['wpum_restrict_type'] ) {
+		$allowed_users = array_map( 'trim', $attrs['wpum_restrict_users'] );
+		if ( is_user_logged_in() && array_intersect( wp_get_current_user()->ID, $allowed_users ) ) {
+			return $block_content;
+		}
+	}
+
+	if ( 'wpum_restrict_type_state' === $attrs['wpum_restrict_type'] ) {
+		if ( is_user_logged_in() ) {
+			return $block_content;
+		}
+	}
+
+	return wpum_blocks_get_restricted_message();
 }
 
-add_action( 'render_block', 'renderBlocksFindingAttrs', 10, 2 );
+add_action( 'render_block', 'wpum_blocks_maybe_restrict_content', 10, 2 );
+
+/**
+ * @return string
+ */
+function wpum_blocks_get_restricted_message() {
+	global $wpum_restricted_id, $post;
+
+	if ( ! empty( $wpum_restricted_id ) && $wpum_restricted_id === $post->ID ) {
+		return '';
+	}
+
+	$wpum_restricted_id = $post->ID;
+
+	ob_start();
+	$login_page = get_permalink( wpum_get_core_page_id( 'login' ) );
+	$login_page = add_query_arg( [
+		'redirect_to' => get_permalink(),
+	], $login_page );
+
+	$message = sprintf( __( 'This content is available to members only. Please <a href="%1$s">login</a> or <a href="%2$s">register</a> to view this area.', 'wp-user-manager' ), $login_page, get_permalink( wpum_get_core_page_id( 'register' ) ) );
+
+	/**
+	 * Filter: allow developers to modify the content restriction shortcode message.
+	 *
+	 * @param string $message the original message.
+	 *
+	 * @return string
+	 */
+	$message = apply_filters( 'wpum_content_restriction_message', $message );
+
+	WPUM()->templates->set_template_data( [
+				'message' => $message,
+			] )->get_template_part( 'messages/general', 'warning' );
+
+	$output = ob_get_clean();
+
+	return $output;
+}
 
 /**
  * Hide Block Content where attr matches choice.

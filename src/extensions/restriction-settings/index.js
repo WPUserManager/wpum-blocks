@@ -26,15 +26,15 @@ const disableRestrictionControlsOnTheseBlocks = [
 // Available restriction control options
 const restrictTypeOptions = [
 	{
-		label: __("Hide block by users state"),
+		label: __("Show block by users state"),
 		value: "wpum_restrict_type_state"
 	},
 	{
-		label: __("Hide block from user role(s)"),
+		label: __("Show block by user role"),
 		value: "wpum_restrict_type_role"
 	},
 	{
-		label: __("Hide block from certain user(s)"),
+		label: __("Show block for certain users"),
 		value: "wpum_restrict_type_user"
 	}
 ];
@@ -73,18 +73,14 @@ const addRestrictionControlAttributes = (settings, name) => {
 			type: "string",
 			default: "wpum_restrict_type_state"
 		},
-		wpum_hide_state_in: {
+		wpum_restrict_state_in: {
 			type: "boolean",
 			default: false
 		},
-		wpum_hide_state_out: {
-			type: "boolean",
-			default: false
-		},
-		wpum_hide_users: {
+		wpum_restrict_users: {
 			type: "array"
 		},
-		wpum_hide_roles: {
+		wpum_restrict_roles: {
 			type: "array"
 		}
 	});
@@ -109,10 +105,9 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 
 		const {
 			wpum_restrict_type,
-			wpum_hide_state_in,
-			wpum_hide_state_out,
-			wpum_hide_users,
-			wpum_hide_roles
+			wpum_restrict_state_in,
+			wpum_restrict_users,
+			wpum_restrict_roles
 		} = props.attributes;
 
 		return (
@@ -135,64 +130,41 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 						/>
 
 						{wpum_restrict_type == "wpum_restrict_type_state" &&
-							!wpum_hide_state_in && (
-								<ToggleControl
-									label={__("Hide from logged out users")}
-									help={
-										!wpum_hide_state_out
-											? __(
-													"Visible to all users.",
-													"wp-user-manager"
-											  )
-											: __(
-													"Hidden from logged out users.",
-													"wp-user-manager"
-											  )
-									}
-									checked={wpum_hide_state_out}
-									onChange={toggleStateOut => {
-										props.setAttributes({
-											wpum_hide_state_out: toggleStateOut
-										});
-									}}
-								/>
-							)}
+						 (
+							 <ToggleControl
+								 label={__("Display only to logged in users")}
+								 help={
+									 !wpum_restrict_state_in
+									 ? __(
+										 "Visible to all users.",
+										 "wp-user-manager"
+									 )
+									 : __(
+										 "Hidden from logged out users.",
+										 "wp-user-manager"
+									 )
+								 }
+								 checked={wpum_restrict_state_in}
+								 onChange={toggleStateIn => {
+									 props.setAttributes({
+										 wpum_restrict_state_in: toggleStateIn
+									 });
+								 }}
+							 />
+						 )}
 
-						{wpum_restrict_type == "wpum_restrict_type_state" &&
-							!wpum_hide_state_out && (
-								<ToggleControl
-									label={__("Hide from logged in users")}
-									help={
-										!wpum_hide_state_in
-											? __(
-													"Visible to all users.",
-													"wp-user-manager"
-											  )
-											: __(
-													"Hidden from logged in users.",
-													"wp-user-manager"
-											  )
-									}
-									checked={wpum_hide_state_in}
-									onChange={toggleStateIn => {
-										props.setAttributes({
-											wpum_hide_state_in: toggleStateIn
-										});
-									}}
-								/>
-							)}
 
 						{wpum_restrict_type == "wpum_restrict_type_user" && (
 							<SelectControl
 								label={__(
-									"Pick user(s) to hide this block from..."
+									"Display only to these users"
 								)}
 								multiple
-								value={wpum_hide_users}
+								value={wpum_restrict_users}
 								options={options}
 								onChange={selectedUsers => {
 									props.setAttributes({
-										wpum_hide_users: selectedUsers
+										wpum_restrict_users: selectedUsers
 									});
 								}}
 							/>
@@ -201,14 +173,14 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 						{wpum_restrict_type == "wpum_restrict_type_role" && (
 							<SelectControl
 								label={__(
-									"Pick user role(s) to hide this block from..."
+									"Display only to users with these roles"
 								)}
 								multiple
-								value={wpum_hide_roles}
+								value={wpum_restrict_roles}
 								options={roleOptions}
 								onChange={selectedRoles => {
 									props.setAttributes({
-										wpum_hide_roles: selectedRoles
+										wpum_restrict_roles: selectedRoles
 									});
 								}}
 							/>

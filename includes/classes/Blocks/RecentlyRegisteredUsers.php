@@ -45,12 +45,12 @@ class RecentlyRegisteredUsers extends AbstractBlock {
 		return [
 			'amount'      => [
 				'type'    => 'text',
-				'label'   => esc_html__( 'How many users to display ?', 'wp-user-manager' ),
+				'label'   => esc_html__( 'How many users to display', 'wp-user-manager' ),
 			],
 			'link_to_profile' => [
 				'type'    => 'boolean',
 				'default' => true,
-				'label'   => esc_html__( 'Link to profile ?', 'wp-user-manager' ),
+				'label'   => esc_html__( 'Show profile link', 'wp-user-manager' ),
 			],
 		];
 	}

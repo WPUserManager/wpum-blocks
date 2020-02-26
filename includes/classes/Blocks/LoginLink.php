@@ -43,7 +43,7 @@ class LoginLink extends AbstractBlock {
 			'redirect'      => [
 				'type'    => 'string',
 				'default' => '',
-				'label'   => esc_html__( 'Redirect URL after login', 'wp-user-manager' ),
+				'label'   => esc_html__( 'URL to redirect to after login', 'wp-user-manager' ),
 			],
 			'label' => [
 				'type'    => 'string',

@@ -46,7 +46,7 @@ class UserDirectory extends AbstractBlock {
 		return [
 			'id'      => [
 				'type'    => 'text',
-				'label'   => esc_html__( 'User ID', 'wp-user-manager' ),
+				'label'   => esc_html__( 'Select Directory', 'wp-user-manager' ),
 			],
 		];
 	}

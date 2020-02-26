@@ -45,22 +45,22 @@ class ProfileCard extends AbstractBlock {
 		return [
 			'user_id'      => [
 				'type'    => 'text',
-				'label'   => esc_html__( 'User ID', 'wp-user-manager' ),
+				'label'   => esc_html__( 'Select User', 'wp-user-manager' ),
 			],
 			'link_to_profile' => [
 				'type'    => 'boolean',
 				'default' => true,
-				'label'   => esc_html__( 'Link to profile ?', 'wp-user-manager' ),
+				'label'   => esc_html__( 'Profile link', 'wp-user-manager' ),
 			],
 			'display_buttons' => [
 				'type'    => 'boolean',
 				'default' => true,
-				'label'   => esc_html__( 'Display buttons ?', 'wp-user-manager' ),
+				'label'   => esc_html__( 'Show buttons', 'wp-user-manager' ),
 			],
 			'display_cover' => [
 				'type'    => 'boolean',
 				'default' => true,
-				'label'   => esc_html__( 'Display profile cover ?', 'wp-user-manager' ),
+				'label'   => esc_html__( 'Display profile cover', 'wp-user-manager' ),
 			],
 		];
 	}

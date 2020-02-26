@@ -121,6 +121,7 @@ function wpum_blocks_register_block_attrs() {
  */
 function wpum_blocks_maybe_restrict_content( $block_content, $block ) {
 	if ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) {
+		// Always show the block content in the editor
 		return $block_content;
 	}
 
@@ -144,13 +145,7 @@ function wpum_blocks_maybe_restrict_content( $block_content, $block ) {
 
 	if ( 'wpum_restrict_type_user' === $attrs['wpum_restrict_type'] ) {
 		$allowed_users = array_map( 'trim', $attrs['wpum_restrict_users'] );
-		if ( is_user_logged_in() && array_intersect( wp_get_current_user()->ID, $allowed_users ) ) {
-			return $block_content;
-		}
-	}
-
-	if ( 'wpum_restrict_type_state' === $attrs['wpum_restrict_type'] ) {
-		if ( is_user_logged_in() ) {
+		if ( is_user_logged_in() && in_array( wp_get_current_user()->ID, $allowed_users ) ) {
 			return $block_content;
 		}
 	}

@@ -33,7 +33,6 @@ class Inspector extends Component {
 			<InspectorControls>
 				<PanelBody title={__("Settings", "wp-user-manager")}>
 					<SelectControl
-						label={__("User Directory ?", "wp-user-manager")}
 						options={options}
 						value={attributes.id}
 						onChange={value =>

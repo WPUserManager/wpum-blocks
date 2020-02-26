@@ -43,7 +43,7 @@ class LogoutLink extends AbstractBlock {
 			'redirect'      => [
 				'type'    => 'string',
 				'default' => '',
-				'label'   => esc_html__( 'Redirect URL after logout', 'wp-user-manager' ),
+				'label'   => esc_html__( 'URL to redirect to after logout', 'wp-user-manager' ),
 			],
 			'label' => [
 				'type'    => 'string',

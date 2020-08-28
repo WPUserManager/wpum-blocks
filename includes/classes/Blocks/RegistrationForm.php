@@ -54,9 +54,20 @@ class RegistrationForm extends AbstractBlock {
 			'register_link' => [
 				'type'    => 'boolean',
 				'default' => true,
-				'label'   => esc_html__( 'Show register link', 'wp-user-manager' ),
+				'label'   => esc_html__( 'Show login link', 'wp-user-manager' ),
 			],
 		];
 	}
 
+	/**
+	 * @param array $attributes
+	 *
+	 * @return string
+	 */
+	public function render_callback( $attributes ) {
+		$attributes['login_link'] = $attributes['register_link'];
+		unset( $attributes['register_link'] );
+
+		return parent::render_callback( $attributes );
+	}
 }

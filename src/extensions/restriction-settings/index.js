@@ -39,6 +39,21 @@ const restrictTypeOptions = [
 	}
 ];
 
+const restrictStateOptions = [
+	{
+		label: __("Show to all users"),
+		value: ""
+	},
+	{
+		label: __("Show only to logged in users"),
+		value: "in"
+	},
+	{
+		label: __("Show only to logged out users"),
+		value: "out"
+	}
+];
+
 const options = [];
 wp.apiFetch({ path: "/wp/v2/users" }).then(posts =>
 	posts.map(function(user) {
@@ -73,15 +88,19 @@ const addRestrictionControlAttributes = (settings, name) => {
 			type: "string",
 			default: "wpum_restrict_type_state"
 		},
-		wpum_restrict_state_in: {
-			type: "boolean",
-			default: false
+		wpum_restrict_state: {
+			type: "string",
+			default: ""
 		},
 		wpum_restrict_users: {
 			type: "array"
 		},
 		wpum_restrict_roles: {
 			type: "array"
+		},
+		wpum_restrict_show_message: {
+			type: "boolean",
+			default: true
 		}
 	});
 	return settings;
@@ -105,9 +124,10 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 
 		const {
 			wpum_restrict_type,
-			wpum_restrict_state_in,
+			wpum_restrict_state,
 			wpum_restrict_users,
-			wpum_restrict_roles
+			wpum_restrict_roles,
+			wpum_restrict_show_message
 		} = props.attributes;
 
 		return (
@@ -131,28 +151,19 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 
 						{wpum_restrict_type == "wpum_restrict_type_state" &&
 						 (
-							 <ToggleControl
-								 label={__("Display only to logged in users")}
-								 help={
-									 !wpum_restrict_state_in
-									 ? __(
-										 "Visible to all users.",
-										 "wp-user-manager"
-									 )
-									 : __(
-										 "Hidden from logged out users.",
-										 "wp-user-manager"
-									 )
-								 }
-								 checked={wpum_restrict_state_in}
-								 onChange={toggleStateIn => {
+							 <SelectControl
+								 label={__(
+									 "Select the type of users to show to"
+								 )}
+								 value={wpum_restrict_state}
+								 options={restrictStateOptions}
+								 onChange={selectedState => {
 									 props.setAttributes({
-										 wpum_restrict_state_in: toggleStateIn
+										 wpum_restrict_state: selectedState
 									 });
 								 }}
 							 />
 						 )}
-
 
 						{wpum_restrict_type == "wpum_restrict_type_user" && (
 							<SelectControl
@@ -185,6 +196,27 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 								}}
 							/>
 						)}
+
+						<ToggleControl
+							label={__("Display restricted message")}
+							help={
+								!wpum_restrict_show_message
+								? __(
+									"Hide block content",
+									"wp-user-manager"
+								)
+								: __(
+									"Hide block content and show message",
+									"wp-user-manager"
+								)
+							}
+							checked={wpum_restrict_show_message}
+							onChange={selected => {
+								props.setAttributes({
+									wpum_restrict_show_message: selected
+								});
+							}}
+						/>
 					</PanelBody>
 				</InspectorControls>
 			</Fragment>

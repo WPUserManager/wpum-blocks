@@ -135,8 +135,17 @@ class WPUM_Blocks {
 
 		$attrs = $block['attrs'];
 
-		if ( isset( $attrs['wpum_restrict_state_in'] ) && $attrs['wpum_restrict_state_in'] && ! is_user_logged_in() ) {
-			return $this->get_restricted_message();
+		$show_message = true;
+		if ( isset( $attrs['wpum_restrict_show_message'] ) && ! $attrs['wpum_restrict_show_message'] ) {
+			$show_message = false;
+		}
+
+		if ( ! empty( $attrs['wpum_restrict_state'] ) && 'in' === $attrs['wpum_restrict_state'] && ! is_user_logged_in() ) {
+			return $show_message ? $this->get_restricted_message() : '';
+		}
+
+		if ( ! empty( $attrs['wpum_restrict_state'] ) && 'out' === $attrs['wpum_restrict_state'] && is_user_logged_in() ) {
+			return $show_message ? $this->get_restricted_message() : '';
 		}
 
 		if ( ! isset( $attrs['wpum_restrict_type'] ) ) {
@@ -158,7 +167,7 @@ class WPUM_Blocks {
 			}
 		}
 
-		return $this->get_restricted_message();
+		return $show_message ? $this->get_restricted_message() : '';
 	}
 
 	/**

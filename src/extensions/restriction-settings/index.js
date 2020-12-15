@@ -55,7 +55,7 @@ const restrictStateOptions = [
 ];
 
 const options = [];
-wp.apiFetch({ path: "/wp/v2/users" }).then(posts =>
+wp.apiFetch({ path: "/wp/v2/users?per_page=100" }).then(posts =>
 	posts.map(function(user) {
 		options.push({ value: user.id, label: user.name });
 	})
@@ -171,6 +171,7 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 									"Display only to these users"
 								)}
 								multiple
+								className='wpum-multiple-select'
 								value={wpum_restrict_users}
 								options={options}
 								onChange={selectedUsers => {
@@ -187,6 +188,7 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 									"Display only to users with these roles"
 								)}
 								multiple
+								className='wpum-multiple-select'
 								value={wpum_restrict_roles}
 								options={roleOptions}
 								onChange={selectedRoles => {

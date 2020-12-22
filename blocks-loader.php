@@ -153,7 +153,8 @@ class WPUM_Blocks {
 		}
 
 		if ( 'wpum_restrict_type_role' === $attrs['wpum_restrict_type'] ) {
-			$allowed_roles = array_map( 'trim', $attrs['wpum_restrict_roles'] );
+			$allowed_roles = empty( $attrs['wpum_restrict_roles'] ) || ! is_array( $attrs['wpum_restrict_roles'] ) ? array() : $attrs['wpum_restrict_roles'];
+			$allowed_roles = array_map( 'trim', $allowed_roles );
 			$current_user  = wp_get_current_user();
 			if ( is_user_logged_in() && array_intersect( $current_user->roles, $allowed_roles ) ) {
 				return $block_content;
@@ -161,7 +162,8 @@ class WPUM_Blocks {
 		}
 
 		if ( 'wpum_restrict_type_user' === $attrs['wpum_restrict_type'] ) {
-			$allowed_users = array_map( 'trim', $attrs['wpum_restrict_users'] );
+			$allowed_users = empty( $attrs['wpum_restrict_users'] ) || ! is_array( $attrs['wpum_restrict_users'] ) ? array() : $attrs['wpum_restrict_users'];
+			$allowed_users = array_map( 'trim', $allowed_users );
 			if ( is_user_logged_in() && in_array( wp_get_current_user()->ID, $allowed_users ) ) {
 				return $block_content;
 			}

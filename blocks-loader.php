@@ -128,7 +128,7 @@ class WPUM_Blocks {
 	 * @return string $block_content Modified Block Content.
 	 */
 	public function maybe_restrict_content( $block_content, $block ) {
-		if ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) {
+		if ( ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST && isset( $_GET['context'] ) && $_GET['context'] === 'edit' ) ) {
 			// Always show the block content in the editor
 			return $block_content;
 		}

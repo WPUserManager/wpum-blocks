@@ -106,6 +106,9 @@ class WPUM_Blocks {
 			$block->attributes['wpum_hide_roles']     = array(
 				'type' => 'array',
 			);
+			$block->attributes['wpum_restrict_state'] = array(
+				'type' => 'array',
+			);
 		}
 	}
 

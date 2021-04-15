@@ -109,6 +109,9 @@ class WPUM_Blocks {
 			$block->attributes['wpum_restrict_state'] = array(
 				'type' => 'array',
 			);
+			$block->attributes['wpum_restrict_show_message'] = array(
+				'type' => 'array',
+			);
 		}
 	}
 

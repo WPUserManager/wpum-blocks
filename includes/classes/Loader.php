@@ -20,6 +20,7 @@ use WPUserManagerBlocks\Blocks\ProfilePage;
 use WPUserManagerBlocks\Blocks\RecentlyRegisteredUsers;
 use WPUserManagerBlocks\Blocks\RegistrationForm;
 use WPUserManagerBlocks\Blocks\UserDirectory;
+use WPUserManagerBlocks\Blocks\PostForm;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -51,6 +52,7 @@ class Loader {
 		( new RecentlyRegisteredUsers() )->register();
 		( new RegistrationForm() )->register();
 		( new UserDirectory() )->register();
+		( new PostForm() )->register();
 	}
 
 	/**

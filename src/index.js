@@ -17,6 +17,7 @@ import "./blocks/block-profile-page/index.js";
 import "./blocks/block-recently-registered-users/index.js";
 import "./blocks/block-registration-form/index.js";
 import "./blocks/block-user-directory/index.js";
+import "./blocks/block-post-form/index.js";
 
 import "./style.scss";
 

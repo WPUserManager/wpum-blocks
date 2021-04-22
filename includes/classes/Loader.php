@@ -20,6 +20,7 @@ use WPUserManagerBlocks\Blocks\ProfilePage;
 use WPUserManagerBlocks\Blocks\RecentlyRegisteredUsers;
 use WPUserManagerBlocks\Blocks\RegistrationForm;
 use WPUserManagerBlocks\Blocks\UserDirectory;
+use WPUserManagerBlocks\Blocks\GroupDirectory;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -51,6 +52,10 @@ class Loader {
 		( new RecentlyRegisteredUsers() )->register();
 		( new RegistrationForm() )->register();
 		( new UserDirectory() )->register();
+
+		if ( class_exists( 'WPUM_Groups' ) ) :
+			( new GroupDirectory() )->register();
+		endif;
 	}
 
 	/**

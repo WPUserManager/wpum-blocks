@@ -52,7 +52,10 @@ class Loader {
 		( new RecentlyRegisteredUsers() )->register();
 		( new RegistrationForm() )->register();
 		( new UserDirectory() )->register();
-		( new GroupDirectory() )->register();
+
+		if ( class_exists( 'WPUM_Groups' ) ) :
+			( new GroupDirectory() )->register();
+		endif;
 	}
 
 	/**

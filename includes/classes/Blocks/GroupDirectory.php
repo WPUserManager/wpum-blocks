@@ -40,6 +40,27 @@ class GroupDirectory extends AbstractBlock {
 	 * @return array
 	 */
 	protected function get_attributes() {
-		return [];
+		return [
+			'per_page'     => [
+				'type' => 'integer',
+				'default' => 10,
+				'label'   => esc_html__( 'Number of groups per page', 'wp-user-manager' ),
+			],
+			'has_search_form'      => [
+				'type'    => 'boolean',
+				'default' => true,
+				'label'   => esc_html__( 'Show search form', 'wp-user-manager' ),
+			],
+			'show_public' => [
+				'type'    => 'boolean',
+				'default' => true,
+				'label'   => esc_html__( 'Show public group', 'wp-user-manager' ),
+			],
+			'show_private' => [
+				'type'    => 'boolean',
+				'default' => true,
+				'label'   => esc_html__( 'Show private group', 'wp-user-manager' ),
+			],
+		];
 	}
 }

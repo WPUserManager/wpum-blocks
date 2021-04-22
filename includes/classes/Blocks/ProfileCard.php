@@ -44,7 +44,7 @@ class ProfileCard extends AbstractBlock {
 	protected function get_attributes() {
 		return [
 			'user_id'      => [
-				'type'    => 'text',
+				'type'    => 'string',
 				'label'   => esc_html__( 'Select User', 'wp-user-manager' ),
 			],
 			'link_to_profile' => [

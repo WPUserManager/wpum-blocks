@@ -21,6 +21,7 @@ const disableRestrictionControlsOnTheseBlocks = [
 	"wpum/registration-form",
 	"wpum/password-recovery-form",
 	"wpum/user-directory",
+	"wpum/post-form",
 	"wpum/group-directory"
 ];
 

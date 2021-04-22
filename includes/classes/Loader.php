@@ -21,6 +21,7 @@ use WPUserManagerBlocks\Blocks\RecentlyRegisteredUsers;
 use WPUserManagerBlocks\Blocks\RegistrationForm;
 use WPUserManagerBlocks\Blocks\UserDirectory;
 use WPUserManagerBlocks\Blocks\GroupDirectory;
+use WPUserManagerBlocks\Blocks\PostForm;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -53,9 +54,13 @@ class Loader {
 		( new RegistrationForm() )->register();
 		( new UserDirectory() )->register();
 
-		if ( class_exists( 'WPUM_Groups' ) ) :
+		if ( class_exists( 'WPUM_Groups' ) ) {
 			( new GroupDirectory() )->register();
-		endif;
+		}
+
+		if ( class_exists( 'WPUM_Frontend_Posting' ) ) {
+			( new PostForm() )->register();
+		}
 	}
 
 	/**

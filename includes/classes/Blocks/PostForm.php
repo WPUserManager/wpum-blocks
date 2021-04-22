@@ -40,11 +40,18 @@ class PostForm extends AbstractBlock {
 	 * @return array
 	 */
 	protected function get_attributes() {
+		$post_forms = WPUMFR()->post_forms->get_forms();
+
+		$default = 0;
+		if ( isset( $post_forms[0])) {
+			$default = $post_forms[0]->ID;
+		}
+
 		return [
 			'form_id'      => [
 				'type'    => 'integer',
 				'label'   => esc_html__( 'Select Form', 'wp-user-manager' ),
-				'default' => 1
+				'default' => $default,
 			],
 		];
 	}

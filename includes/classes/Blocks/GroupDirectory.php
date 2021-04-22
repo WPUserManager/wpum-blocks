@@ -54,12 +54,12 @@ class GroupDirectory extends AbstractBlock {
 			'show_public' => [
 				'type'    => 'boolean',
 				'default' => true,
-				'label'   => esc_html__( 'Show public group', 'wp-user-manager' ),
+				'label'   => esc_html__( 'Show public groups', 'wp-user-manager' ),
 			],
 			'show_private' => [
 				'type'    => 'boolean',
 				'default' => true,
-				'label'   => esc_html__( 'Show private group', 'wp-user-manager' ),
+				'label'   => esc_html__( 'Show private groups', 'wp-user-manager' ),
 			],
 		];
 	}

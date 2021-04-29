@@ -55,7 +55,7 @@ class WPUM_Blocks {
 		$this->loader = new WPUserManagerBlocks\Loader();
 		$this->loader->init();
 
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_scripts' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_scripts' ), 1 );
 		add_action( 'wp_loaded', array( $this, 'register_block_attrs' ), 100 );
 		add_action( 'rest_api_init', array( $this, 'register_roles_route' ) );
 		add_action( 'render_block', array( $this, 'maybe_restrict_content' ), 10, 2 );
@@ -68,7 +68,7 @@ class WPUM_Blocks {
 			'wp-element',
 			'wp-components',
 			'wp-editor',
-		], WPUM_VERSION, true );
+		], WPUM_VERSION, false );
 
 		wp_enqueue_style( 'wpum-blocks-admin', WPUM_PLUGIN_URL . 'vendor/wp-user-manager/wpum-blocks/build/style.css', [], WPUM_VERSION );
 		wp_enqueue_style( 'wpum-blocks-admin-style', WPUM_PLUGIN_URL . 'assets/css/wpum.min.css', false, WPUM_VERSION );
@@ -103,13 +103,16 @@ class WPUM_Blocks {
 			$block->attributes['wpum_hide_users']     = array(
 				'type' => 'array',
 			);
+			$block->attributes['wpum_restrict_show_message']     = array(
+				'type' => 'array',
+			);
 			$block->attributes['wpum_hide_roles']     = array(
 				'type' => 'array',
 			);
-			$block->attributes['wpum_restrict_state'] = array(
+			$block->attributes['wpum_restrict_users']     = array(
 				'type' => 'array',
 			);
-			$block->attributes['wpum_restrict_show_message'] = array(
+			$block->attributes['wpum_restrict_state'] = array(
 				'type' => 'array',
 			);
 		}

@@ -68,7 +68,7 @@ class WPUM_Blocks {
 			'wp-element',
 			'wp-components',
 			'wp-editor',
-		], WPUM_VERSION, true );
+		], WPUM_VERSION, false );
 
 		wp_enqueue_style( 'wpum-blocks-admin', WPUM_PLUGIN_URL . 'vendor/wp-user-manager/wpum-blocks/build/style.css', [], WPUM_VERSION );
 		wp_enqueue_style( 'wpum-blocks-admin-style', WPUM_PLUGIN_URL . 'assets/css/wpum.min.css', false, WPUM_VERSION );
@@ -104,6 +104,15 @@ class WPUM_Blocks {
 				'type' => 'array',
 			);
 			$block->attributes['wpum_hide_roles']     = array(
+				'type' => 'array',
+			);
+			$block->attributes['wpum_restrict_users']     = array(
+				'type' => 'array',
+			);
+			$block->attributes['wpum_restrict_show_message']     = array(
+				'type' => 'array',
+			);
+			$block->attributes['wpum_restrict_state']     = array(
 				'type' => 'array',
 			);
 		}

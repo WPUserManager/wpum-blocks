@@ -103,13 +103,13 @@ class WPUM_Blocks {
 			$block->attributes['wpum_hide_users']     = array(
 				'type' => 'array',
 			);
+			$block->attributes['wpum_restrict_show_message']     = array(
+				'type' => 'array',
+			);
 			$block->attributes['wpum_hide_roles']     = array(
 				'type' => 'array',
 			);
 			$block->attributes['wpum_restrict_users']     = array(
-				'type' => 'array',
-			);
-			$block->attributes['wpum_restrict_show_message']     = array(
 				'type' => 'array',
 			);
 			$block->attributes['wpum_restrict_state']     = array(

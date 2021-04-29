@@ -55,7 +55,7 @@ class WPUM_Blocks {
 		$this->loader = new WPUserManagerBlocks\Loader();
 		$this->loader->init();
 
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_scripts' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_scripts' ), 1 );
 		add_action( 'wp_loaded', array( $this, 'register_block_attrs' ), 100 );
 		add_action( 'rest_api_init', array( $this, 'register_roles_route' ) );
 		add_action( 'render_block', array( $this, 'maybe_restrict_content' ), 10, 2 );

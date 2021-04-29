@@ -112,7 +112,7 @@ class WPUM_Blocks {
 			$block->attributes['wpum_restrict_users']     = array(
 				'type' => 'array',
 			);
-			$block->attributes['wpum_restrict_state']     = array(
+			$block->attributes['wpum_restrict_state'] = array(
 				'type' => 'array',
 			);
 		}

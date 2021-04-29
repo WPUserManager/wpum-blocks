@@ -20,7 +20,9 @@ const disableRestrictionControlsOnTheseBlocks = [
 	"wpum/recently-registered-users",
 	"wpum/registration-form",
 	"wpum/password-recovery-form",
-	"wpum/user-directory"
+	"wpum/user-directory",
+	"wpum/post-form",
+	"wpum/group-directory"
 ];
 
 // Available restriction control options

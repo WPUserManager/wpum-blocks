@@ -8,11 +8,13 @@ const el = wp.element.createElement;
 let blockName = "post-form";
 
 const options = [];
-wp.apiFetch({ path: "/wpum-fr/forms" }).then(posts =>
-	posts.map(function(form) {
-		options.push({ value: form.form_id, label: form.name });
-	})
-);
+if ( typeof wpum_blocks.blocks[ blockName ] !== 'undefined' ) {
+	wp.apiFetch({ path: "/wpum-fr/forms" }).then(posts =>
+		posts.map(function(form) {
+			options.push({ value: form.form_id, label: form.name });
+		})
+	);
+}
 // Build the editor settings.
 export default function(props) {
 	const { attributes, setAttributes } = props;
@@ -20,34 +22,38 @@ export default function(props) {
 		form_id,
 	} = attributes;
 
-	const settings = el(
-		InspectorControls,
-		null,
+	if ( typeof wpum_blocks.blocks[ blockName ] !== 'undefined' ) {
+		const settings = el(
+			InspectorControls,
+			null,
 
-		// Query settings panel.
-		el(
-			PanelBody,
-			{
-				title: wpum_blocks.blocks[blockName].labels.panel_settings
-			},
-			el(SelectControl, {
-				label: wpum_blocks.blocks[blockName].attributes.form_id.label,
-				value: form_id,
-				options: options,
-				onChange: function(form_id) {
-					setAttributes({
-						form_id
-					});
-				}
-			}),
-		)
-	);
+			// Query settings panel.
+			el(
+				PanelBody,
+				{
+					title: wpum_blocks.blocks[blockName].labels.panel_settings
+				},
+				el(SelectControl, {
+					label: wpum_blocks.blocks[blockName].attributes.form_id.label,
+					value: form_id,
+					options: options,
+					onChange: function(form_id) {
+						setAttributes({
+							form_id
+						});
+					}
+				}),
+			)
+		);
 
-	return [
-		settings,
-		el(serverSideRender, {
-			block: "wpum/" + blockName,
-			attributes: props.attributes
-		})
-	];
+		return [
+			settings,
+			el(serverSideRender, {
+				block: "wpum/" + blockName,
+				attributes: props.attributes
+			})
+		];
+	}else{
+		return [];
+	}
 }

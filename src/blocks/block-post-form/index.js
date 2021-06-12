@@ -11,18 +11,20 @@ import icon from "./icon";
 
 let blockName = "post-form";
 
-// Register the block.
-registerBlockType("wpum/" + blockName, {
-	title: wpum_blocks.blocks[blockName].labels.title,
-	description: wpum_blocks.blocks[blockName].labels.description,
-	icon,
-	category: "wpum",
-	keywords: wpum_blocks.blocks[blockName].labels.keywords,
-	attributes: wpum_blocks.blocks[blockName].attributes,
+if ( typeof wpum_blocks.blocks[ blockName ] !== 'undefined' ) {
+	// Register the block.
+	registerBlockType("wpum/" + blockName, {
+		title: wpum_blocks.blocks[blockName].labels.title,
+		description: wpum_blocks.blocks[blockName].labels.description,
+		icon,
+		category: "wpum",
+		keywords: wpum_blocks.blocks[blockName].labels.keywords,
+		attributes: wpum_blocks.blocks[blockName].attributes,
 
-	edit: EditBlock,
+		edit: EditBlock,
 
-	save() {
-		return null;
-	}
-});
+		save() {
+			return null;
+		}
+	});
+}

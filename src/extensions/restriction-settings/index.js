@@ -25,6 +25,12 @@ const disableRestrictionControlsOnTheseBlocks = [
 	"wpum/group-directory"
 ];
 
+// helper funtion to check restriction free blocks
+const hasRestrictionDisabledBlocks = (name) => {
+	return disableRestrictionControlsOnTheseBlocks.includes(name) ||
+		disableRestrictionControlsOnTheseBlocks.map( block => block.replace(/\/|-/g, '_') ).includes(name);
+}
+
 // Available restriction control options
 const restrictTypeOptions = [
 	{
@@ -80,7 +86,7 @@ wp.apiFetch({ path: "/wp-user-manager/user-roles" }).then(roles =>
  */
 const addRestrictionControlAttributes = (settings, name) => {
 	// Do nothing if it's another block than our defined ones.
-	if (disableRestrictionControlsOnTheseBlocks.includes(name)) {
+	if (hasRestrictionDisabledBlocks(name)) {
 		return settings;
 	}
 
@@ -120,7 +126,10 @@ addFilter(
 const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 	return props => {
 		// Do nothing if it's another block than our defined ones.
-		if (disableRestrictionControlsOnTheseBlocks.includes(props.name)) {
+		if(
+			( props.name === "core/legacy-widget" && hasRestrictionDisabledBlocks(props.attributes.idBase) ) ||
+			hasRestrictionDisabledBlocks(props.name)
+		){
 			return <BlockEdit {...props} />;
 		}
 

@@ -4,7 +4,7 @@ const { createHigherOrderComponent } = wp.compose;
 const { Fragment } = wp.element;
 const { InspectorControls } = wp.blockEditor;
 const { PanelBody, SelectControl, ToggleControl } = wp.components;
-const { addFilter } = wp.hooks;
+const { addFilter, applyFilters } = wp.hooks;
 const { __ } = wp.i18n;
 
 // Disable restriction controls on the following blocks...
@@ -25,10 +25,19 @@ const disableRestrictionControlsOnTheseBlocks = [
 	"wpum/group-directory"
 ];
 
+const disableRestrictionControlsWidgets = [
+	"wpum_login_form_widget",
+	"wpum_password_recovery",
+	"wpum_registration_form_widget"
+];
+
 // helper funtion to check restriction free blocks
 const hasRestrictionDisabledBlocks = (name) => {
-	return disableRestrictionControlsOnTheseBlocks.includes(name) ||
-		disableRestrictionControlsOnTheseBlocks.map( block => block.replace(/\/|-/g, '_') ).includes(name);
+	return applyFilters('wpumBlockEditor.RestrictedBlocks',disableRestrictionControlsOnTheseBlocks).includes(name);
+}
+
+const hasRestrictionDisabledWidgets = (name) => {
+	return applyFilters('wpumBlockEditor.RestrictedWidgets',disableRestrictionControlsWidgets).includes(name);
 }
 
 // Available restriction control options
@@ -127,7 +136,7 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 	return props => {
 		// Do nothing if it's another block than our defined ones.
 		if(
-			( props.name === "core/legacy-widget" && hasRestrictionDisabledBlocks(props.attributes.idBase) ) ||
+			( props.name === "core/legacy-widget" && hasRestrictionDisabledWidgets(props.attributes.idBase) ) ||
 			hasRestrictionDisabledBlocks(props.name)
 		){
 			return <BlockEdit {...props} />;

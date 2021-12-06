@@ -148,6 +148,11 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 								props.setAttributes({
 									wpum_restrict_type: selectedUsers
 								});
+
+								//adding legacy support
+								if ( props.name == 'core/legacy-widget' ) {
+									props.attributes.instance.raw['wpum_restrict_type'] = selectedUsers;
+								}
 							}}
 						/>
 
@@ -163,6 +168,10 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 									 props.setAttributes({
 										 wpum_restrict_state: selectedState
 									 });
+
+									if ( props.name == 'core/legacy-widget' ) {
+										props.attributes.instance.raw['wpum_restrict_state'] = selectedState;
+									}
 								 }}
 							 />
 						 )}
@@ -180,6 +189,10 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 									props.setAttributes({
 										wpum_restrict_users: selectedUsers
 									});
+
+									if ( props.name == 'core/legacy-widget' ) {
+										props.attributes.instance.raw['wpum_restrict_users'] = selectedUsers;
+									}
 								}}
 							/>
 						)}
@@ -197,6 +210,10 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 									props.setAttributes({
 										wpum_restrict_roles: selectedRoles
 									});
+
+									if ( props.name == 'core/legacy-widget' ) {
+										props.attributes.instance.raw['wpum_restrict_roles'] = selectedRoles;
+									}
 								}}
 							/>
 						)}
@@ -219,6 +236,10 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 								props.setAttributes({
 									wpum_restrict_show_message: selected
 								});
+
+								if ( props.name == 'core/legacy-widget' ) {
+									props.attributes.instance.raw['wpum_restrict_show_message'] = selected;
+								}
 							}}
 						/>
 					</PanelBody>

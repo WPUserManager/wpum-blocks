@@ -40,7 +40,7 @@ class WPUM_Blocks {
 		/**
 		 * Register the WP User Manager blocks category for the block editor.
 		 */
-		add_filter( 'block_categories', function ( $categories ) {
+		add_filter( 'block_categories_all', function ( $categories ) {
 			return array_merge( $categories, array(
 				array(
 					'slug'  => 'wpum',

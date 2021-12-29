@@ -4,7 +4,7 @@ const { createHigherOrderComponent } = wp.compose;
 const { Fragment } = wp.element;
 const { InspectorControls } = wp.blockEditor;
 const { PanelBody, SelectControl, ToggleControl } = wp.components;
-const { addFilter } = wp.hooks;
+const { addFilter, applyFilters } = wp.hooks;
 const { __ } = wp.i18n;
 
 // Disable restriction controls on the following blocks...
@@ -17,8 +17,23 @@ const disableRestrictionControlsOnTheseBlocks = [
 	"wpum/password-recovery-form",
 	"wpum/profile-page",
 	"wpum/registration-form",
-	"wpum/password-recovery-form",
+	"wpum/password-recovery-form"
 ];
+
+const disableRestrictionControlsWidgets = [
+	"wpum_login_form_widget",
+	"wpum_password_recovery",
+	"wpum_registration_form_widget"
+];
+
+// helper funtion to check restriction free blocks
+const hasRestrictionDisabledBlocks = (name) => {
+	return applyFilters('wpumBlockEditor.RestrictedBlocks',disableRestrictionControlsOnTheseBlocks).includes(name);
+}
+
+const hasRestrictionDisabledWidgets = (name) => {
+	return applyFilters('wpumBlockEditor.RestrictedWidgets',disableRestrictionControlsWidgets).includes(name);
+}
 
 // Available restriction control options
 const restrictTypeOptions = [
@@ -75,7 +90,7 @@ wp.apiFetch({ path: "/wp-user-manager/user-roles" }).then(roles =>
  */
 const addRestrictionControlAttributes = (settings, name) => {
 	// Do nothing if it's another block than our defined ones.
-	if (disableRestrictionControlsOnTheseBlocks.includes(name)) {
+	if (hasRestrictionDisabledBlocks(name)) {
 		return settings;
 	}
 
@@ -115,7 +130,10 @@ addFilter(
 const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 	return props => {
 		// Do nothing if it's another block than our defined ones.
-		if (disableRestrictionControlsOnTheseBlocks.includes(props.name)) {
+		if(
+			( props.name === "core/legacy-widget" && hasRestrictionDisabledWidgets(props.attributes.idBase) ) ||
+			hasRestrictionDisabledBlocks(props.name)
+		){
 			return <BlockEdit {...props} />;
 		}
 
@@ -143,11 +161,6 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 								props.setAttributes({
 									wpum_restrict_type: selectedUsers
 								});
-
-								//adding legacy support
-								if ( props.name == 'core/legacy-widget' ) {
-									props.attributes.instance.raw['wpum_restrict_type'] = selectedUsers;
-								}
 							}}
 						/>
 
@@ -163,10 +176,6 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 									 props.setAttributes({
 										 wpum_restrict_state: selectedState
 									 });
-
-									if ( props.name == 'core/legacy-widget' ) {
-										props.attributes.instance.raw['wpum_restrict_state'] = selectedState;
-									}
 								 }}
 							 />
 						 )}
@@ -184,10 +193,6 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 									props.setAttributes({
 										wpum_restrict_users: selectedUsers
 									});
-
-									if ( props.name == 'core/legacy-widget' ) {
-										props.attributes.instance.raw['wpum_restrict_users'] = selectedUsers;
-									}
 								}}
 							/>
 						)}
@@ -205,10 +210,6 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 									props.setAttributes({
 										wpum_restrict_roles: selectedRoles
 									});
-
-									if ( props.name == 'core/legacy-widget' ) {
-										props.attributes.instance.raw['wpum_restrict_roles'] = selectedRoles;
-									}
 								}}
 							/>
 						)}
@@ -231,10 +232,6 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 								props.setAttributes({
 									wpum_restrict_show_message: selected
 								});
-
-								if ( props.name == 'core/legacy-widget' ) {
-									props.attributes.instance.raw['wpum_restrict_show_message'] = selected;
-								}
 							}}
 						/>
 					</PanelBody>

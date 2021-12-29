@@ -59,6 +59,10 @@ class WPUM_Blocks {
 		add_action( 'wp_loaded', array( $this, 'register_block_attrs' ), 100 );
 		add_action( 'rest_api_init', array( $this, 'register_roles_route' ) );
 		add_action( 'render_block', array( $this, 'maybe_restrict_content' ), 10, 2 );
+
+		add_action('widget_display_callback', array( $this, 'maybe_restrict_widget' ), 10, 3 );
+		add_action('widget_update_callback', array( $this, 'update_legacy_widget' ), 10, 2 );
+
 	}
 
 	public function enqueue_scripts() {
@@ -192,10 +196,10 @@ class WPUM_Blocks {
 	/**
 	 * @return string
 	 */
-	public function get_restricted_message() {
+	public function get_restricted_message( $widget = false ) {
 		global $wpum_restricted_id, $post;
 
-		if ( ! empty( $wpum_restricted_id ) && $wpum_restricted_id === $post->ID ) {
+		if ( ! empty( $wpum_restricted_id ) && $wpum_restricted_id === $post->ID && $widget ) {
 			return '';
 		}
 
@@ -242,4 +246,78 @@ class WPUM_Blocks {
 
 		return $roles;
 	}
+
+	/**
+	 * support for legacy widget
+	 *
+	 */
+	public function maybe_restrict_widget( $instance, $widget, $args ) {
+
+		if ( ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST && isset( $_GET['context'] ) && $_GET['context'] === 'edit' ) ) {
+			return $instance;
+		}
+
+		$show_message = true;
+
+		if ( isset( $instance['wpum_restrict_show_message'] ) && ! $instance['wpum_restrict_show_message'] ) {
+			$show_message = false;
+		}
+
+		if ( isset( $instance['wpum_restrict_state_in'] ) && $instance['wpum_restrict_state_in'] && ! is_user_logged_in() ) {
+			echo $show_message ? $this->get_restricted_message() : '';
+			return false;
+		}
+
+		if ( ! empty( $instance['wpum_restrict_state'] ) && 'in' === $instance['wpum_restrict_state'] && ! is_user_logged_in() ) {
+			echo $show_message ? $this->get_restricted_message() : '';
+			return false;
+		}
+
+		if ( ! empty( $instance['wpum_restrict_state'] ) && 'out' === $instance['wpum_restrict_state'] && is_user_logged_in() ) {
+			echo $show_message ? $this->get_restricted_message() : '';
+			return false;
+		}
+
+		if ( ! isset( $instance['wpum_restrict_type'] ) ) {
+			return $instance;
+		}
+
+		if ( 'wpum_restrict_type_role' === $instance['wpum_restrict_type'] ) {
+			$allowed_roles = empty( $instance['wpum_restrict_roles'] ) || ! is_array( $instance['wpum_restrict_roles'] ) ? array() : $instance['wpum_restrict_roles'];
+			$allowed_roles = array_map( 'trim', $allowed_roles );
+			$current_user  = wp_get_current_user();
+
+			if ( is_user_logged_in() && array_intersect( $current_user->roles, $allowed_roles ) ) {
+				return $instance;
+			}
+		}
+
+		if ( 'wpum_restrict_type_user' === $instance['wpum_restrict_type'] ) {
+			$allowed_users = empty( $instance['wpum_restrict_users'] ) || ! is_array( $instance['wpum_restrict_users'] ) ? array() : $instance['wpum_restrict_users'];
+			$allowed_users = array_map( 'trim', $allowed_users );
+			if ( is_user_logged_in() && in_array( wp_get_current_user()->ID, $allowed_users ) ) {
+				return $instance;
+			}
+		}
+
+		echo $show_message ? $this->get_restricted_message() : '';
+		return false;
+
+	}
+
+	public function update_legacy_widget( $instance, $new ) {
+
+		$controls = [ 'wpum_restrict_type', 'wpum_restrict_state', 'wpum_restrict_users', 'wpum_restrict_roles', 'wpum_restrict_show_message' ];
+
+		foreach( $controls as $control ){
+			if ( isset( $new[ $control ] ) ) {
+				$instance[ $control ] = $new[ $control ];
+			}else{
+				unset( $instance[ $control ] );
+			}
+		}
+
+		return $instance;
+	}
+
 }

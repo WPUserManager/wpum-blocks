@@ -252,8 +252,9 @@ class WPUM_Blocks {
 	 *
 	 */
 	public function maybe_restrict_widget( $instance, $widget, $args ) {
+		global $pagenow;
 
-		if ( ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST && isset( $_GET['context'] ) && $_GET['context'] === 'edit' ) ) {
+		if ( ( is_admin() && isset( $pagenow ) && $pagenow == 'widgets.php' ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST && isset( $_GET['context'] ) && $_GET['context'] === 'edit' ) ) {
 			return $instance;
 		}
 

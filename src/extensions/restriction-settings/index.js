@@ -137,13 +137,27 @@ const withRestrictionControls = createHigherOrderComponent(BlockEdit => {
 			return <BlockEdit {...props} />;
 		}
 
+		let controls = [
+			'wpum_restrict_type',
+			'wpum_restrict_state',
+			'wpum_restrict_users',
+			'wpum_restrict_roles',
+			'wpum_restrict_show_message'
+		];
+
 		const {
 			wpum_restrict_type,
 			wpum_restrict_state,
 			wpum_restrict_users,
 			wpum_restrict_roles,
 			wpum_restrict_show_message
-		} = ( props.name == 'core/legacy-widget' && props.attributes.instance && props.attributes.instance.raw ) ? props.attributes.instance.raw : props.attributes;
+		} = (props.name == 'core/legacy-widget' && props.attributes.instance && props.attributes.instance.hasOwnProperty( 'raw' )) ? props.attributes.instance.raw : props.attributes;
+
+		if ( props.name == 'core/legacy-widget' && props.attributes.instance && !props.attributes.instance.hasOwnProperty( 'raw' ) ) {
+			props.attributes.instance.raw = {};
+
+			controls.forEach( control => props.attributes.instance.raw[ control ] = props.attributes[ control ] );
+		}
 
 		return (
 			<Fragment>

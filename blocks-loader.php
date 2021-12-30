@@ -59,10 +59,8 @@ class WPUM_Blocks {
 		add_action( 'wp_loaded', array( $this, 'register_block_attrs' ), 100 );
 		add_action( 'rest_api_init', array( $this, 'register_roles_route' ) );
 		add_action( 'render_block', array( $this, 'maybe_restrict_content' ), 10, 2 );
-
-		add_action('widget_display_callback', array( $this, 'maybe_restrict_widget' ), 10, 3 );
-		add_action('widget_update_callback', array( $this, 'update_legacy_widget' ), 10, 2 );
-
+		add_action( 'widget_display_callback', array( $this, 'maybe_restrict_widget' ), 10, 3 );
+		add_action( 'widget_update_callback', array( $this, 'update_legacy_widget' ), 10, 2 );
 	}
 
 	public function enqueue_scripts() {
@@ -72,7 +70,7 @@ class WPUM_Blocks {
 			'wp-element',
 			'wp-components',
 			'wp-editor',
-		], WPUM_VERSION, false );
+		], WPUM_VERSION );
 
 		wp_enqueue_style( 'wpum-blocks-admin', WPUM_PLUGIN_URL . 'vendor/wp-user-manager/wpum-blocks/build/style.css', [], WPUM_VERSION );
 		wp_enqueue_style( 'wpum-blocks-admin-style', WPUM_PLUGIN_URL . 'assets/css/wpum.min.css', false, WPUM_VERSION );
@@ -203,6 +201,10 @@ class WPUM_Blocks {
 			return '';
 		}
 
+		if ( ! isset( $post->ID ) ) {
+			return '';
+		}
+
 		$wpum_restricted_id = $post->ID;
 
 		ob_start();
@@ -254,7 +256,7 @@ class WPUM_Blocks {
 	public function maybe_restrict_widget( $instance, $widget, $args ) {
 		global $pagenow;
 
-		if ( ( is_admin() && isset( $pagenow ) && $pagenow == 'widgets.php' ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST && isset( $_GET['context'] ) && $_GET['context'] === 'edit' ) ) {
+		if ( ( is_admin() && isset( $pagenow ) && $pagenow == 'widgets.php' ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 			return $instance;
 		}
 
@@ -264,22 +266,26 @@ class WPUM_Blocks {
 			$show_message = false;
 		}
 
-		if ( isset( $instance['wpum_restrict_state_in'] ) && $instance['wpum_restrict_state_in'] && ! is_user_logged_in() ) {
+		if ( isset( $instance['wpum_restrict_type'] ) && 'wpum_restrict_type_state' === $instance['wpum_restrict_type'] && ! empty( $instance['wpum_restrict_state'] ) && 'in' === $instance['wpum_restrict_state'] && ! is_user_logged_in() ) {
 			echo $show_message ? $this->get_restricted_message() : '';
 			return false;
 		}
 
-		if ( ! empty( $instance['wpum_restrict_state'] ) && 'in' === $instance['wpum_restrict_state'] && ! is_user_logged_in() ) {
+
+		if ( isset( $instance['wpum_restrict_type'] ) && 'wpum_restrict_type_state' === $instance['wpum_restrict_type'] && ! empty( $instance['wpum_restrict_state'] ) && 'in' === $instance['wpum_restrict_state'] && is_user_logged_in() ) {
+			return $instance;
+		}
+
+		if ( isset( $instance['wpum_restrict_type'] ) && 'wpum_restrict_type_state' === $instance['wpum_restrict_type'] && ! empty( $instance['wpum_restrict_state'] ) && 'out' === $instance['wpum_restrict_state'] && is_user_logged_in() ) {
 			echo $show_message ? $this->get_restricted_message() : '';
 			return false;
 		}
 
-		if ( ! empty( $instance['wpum_restrict_state'] ) && 'out' === $instance['wpum_restrict_state'] && is_user_logged_in() ) {
-			echo $show_message ? $this->get_restricted_message() : '';
-			return false;
+		if ( isset( $instance['wpum_restrict_type'] ) && 'wpum_restrict_type_state' === $instance['wpum_restrict_type'] && ! empty( $instance['wpum_restrict_state'] ) && 'out' === $instance['wpum_restrict_state'] && ! is_user_logged_in() ) {
+			return $instance;
 		}
 
-		if ( ! isset( $instance['wpum_restrict_type'] ) ) {
+			if ( ! isset( $instance['wpum_restrict_type'] ) ) {
 			return $instance;
 		}
 
@@ -307,13 +313,18 @@ class WPUM_Blocks {
 	}
 
 	public function update_legacy_widget( $instance, $new ) {
+		$controls = [
+			'wpum_restrict_type',
+			'wpum_restrict_state',
+			'wpum_restrict_users',
+			'wpum_restrict_roles',
+			'wpum_restrict_show_message',
+		];
 
-		$controls = [ 'wpum_restrict_type', 'wpum_restrict_state', 'wpum_restrict_users', 'wpum_restrict_roles', 'wpum_restrict_show_message' ];
-
-		foreach( $controls as $control ){
+		foreach ( $controls as $control ) {
 			if ( isset( $new[ $control ] ) ) {
 				$instance[ $control ] = $new[ $control ];
-			}else{
+			} else {
 				unset( $instance[ $control ] );
 			}
 		}

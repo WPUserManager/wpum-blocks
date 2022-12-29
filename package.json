@@ -21,7 +21,7 @@
 		"test:unit": "wp-scripts test-unit-js"
 	},
 	"dependencies": {
-		"@wordpress/scripts": "3.1.0",
+		"@wordpress/scripts": "25.0.0",
 		"axios": "^0.19.0",
 		"lodash": "^4.17.15"
 	},

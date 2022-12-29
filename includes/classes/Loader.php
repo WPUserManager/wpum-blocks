@@ -10,15 +10,19 @@
 
 namespace WPUserManagerBlocks;
 
+use ACP\Search\Helper\Sql\Comparison\Like;
 use WPUserManagerBlocks\Blocks\AccountPage;
+use WPUserManagerBlocks\Blocks\LikeButton;
 use WPUserManagerBlocks\Blocks\LoginForm;
 use WPUserManagerBlocks\Blocks\LoginLink;
 use WPUserManagerBlocks\Blocks\LogoutLink;
 use WPUserManagerBlocks\Blocks\PasswordRecoveryForm;
+use WPUserManagerBlocks\Blocks\PrivateContent;
 use WPUserManagerBlocks\Blocks\ProfileCard;
 use WPUserManagerBlocks\Blocks\ProfilePage;
 use WPUserManagerBlocks\Blocks\RecentlyRegisteredUsers;
 use WPUserManagerBlocks\Blocks\RegistrationForm;
+use WPUserManagerBlocks\Blocks\SocialLoginButtons;
 use WPUserManagerBlocks\Blocks\UserDirectory;
 use WPUserManagerBlocks\Blocks\GroupDirectory;
 use WPUserManagerBlocks\Blocks\PostForm;
@@ -60,6 +64,18 @@ class Loader {
 
 		if ( class_exists( 'WPUM_Frontend_Posting' ) ) {
 			( new PostForm() )->register();
+		}
+
+		if ( class_exists( 'WPUM_Likes' ) ) {
+			( new LikeButton() )->register();
+		}
+
+		if ( class_exists( 'WPUM_Social_Login' ) ) {
+			( new SocialLoginButtons() )->register();
+		}
+
+		if ( class_exists( 'WPUM_Private_Content' ) ) {
+			( new PrivateContent() )->register();
 		}
 	}
 

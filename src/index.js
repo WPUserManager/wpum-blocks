@@ -19,6 +19,9 @@ import "./blocks/block-registration-form/index.js";
 import "./blocks/block-user-directory/index.js";
 import "./blocks/block-post-form/index.js";
 import "./blocks/block-group-directory/index.js";
+import "./blocks/block-like-button/index.js";
+import "./blocks/block-social-login-buttons/index.js";
+import "./blocks/block-private-content/index.js";
 import "./style.scss";
 
 // Setup custom icon for the WPUM blocks category.

@@ -4,7 +4,11 @@
 	"homepage": "https://wpusermanager.com",
 	"author": "https://wpusermanager.com",
 	"description": "WP User Manager component that registers custom blocks.",
-	"license": "GPLv2+",
+	"license": "GPL-2.0-or-later",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/WPUserManager/wpum-blocks/"
+	},
 	"scripts": {
 		"build": "wp-scripts build",
 		"check-engines": "wp-scripts check-engines",

@@ -29,7 +29,7 @@
 		"css-loader": "^3.2.0",
 		"extract-loader": "^3.1.0",
 		"file-loader": "^4.2.0",
-		"node-sass": "^4.14.1",
+		"node-sass": "^7.0.0",
 		"postcss-loader": "^3.0.0",
 		"postcss-preset-env": "^6.7.0",
 		"sass-loader": "^8.0.0",

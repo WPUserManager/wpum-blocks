@@ -70,6 +70,7 @@ class WPUM_Blocks {
 			'wp-element',
 			'wp-components',
 			'wp-editor',
+			'lodash',
 		], WPUM_VERSION );
 
 		wp_enqueue_style( 'wpum-blocks-admin', WPUM_PLUGIN_URL . 'vendor/wp-user-manager/wpum-blocks/build/style.css', [], WPUM_VERSION );

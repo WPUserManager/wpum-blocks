@@ -176,7 +176,7 @@ class WPUM_Blocks {
 			$allowed_roles = empty( $attrs['wpum_restrict_roles'] ) || ! is_array( $attrs['wpum_restrict_roles'] ) ? array() : $attrs['wpum_restrict_roles'];
 			$allowed_roles = array_map( 'trim', $allowed_roles );
 			$current_user  = wp_get_current_user();
-			if ( is_user_logged_in() && array_intersect( $current_user->roles, $allowed_roles ) ) {
+			if ( is_user_logged_in() && array_intersect( $this->get_access_roles( $current_user ), $allowed_roles ) ) {
 				return $block_content;
 			}
 		}
@@ -232,6 +232,22 @@ class WPUM_Blocks {
 		$output = ob_get_clean();
 
 		return $output;
+	}
+
+	/**
+	 * The roles that decide what the user can see. Core's wpum_get_user_access_roles()
+	 * lets integrations withhold roles, e.g. Stripe while a payment is outstanding.
+	 *
+	 * @param WP_User $user
+	 *
+	 * @return array
+	 */
+	protected function get_access_roles( $user ) {
+		if ( function_exists( 'wpum_get_user_access_roles' ) ) {
+			return wpum_get_user_access_roles( $user );
+		}
+
+		return (array) $user->roles;
 	}
 
 	function get_user_roles() {
@@ -295,7 +311,7 @@ class WPUM_Blocks {
 			$allowed_roles = array_map( 'trim', $allowed_roles );
 			$current_user  = wp_get_current_user();
 
-			if ( is_user_logged_in() && array_intersect( $current_user->roles, $allowed_roles ) ) {
+			if ( is_user_logged_in() && array_intersect( $this->get_access_roles( $current_user ), $allowed_roles ) ) {
 				return $instance;
 			}
 		}

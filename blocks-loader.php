@@ -140,7 +140,7 @@ class WPUM_Blocks {
 	 * @return string $block_content Modified Block Content.
 	 */
 	public function maybe_restrict_content( $block_content, $block ) {
-		if ( ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST && isset( $_GET['context'] ) && $_GET['context'] === 'edit' ) ) {
+		if ( ( ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST && isset( $_GET['context'] ) && $_GET['context'] === 'edit' ) ) && $this->current_user_can_edit() ) {
 			// Always show the block content in the editor
 			return $block_content;
 		}
@@ -190,6 +190,18 @@ class WPUM_Blocks {
 		}
 
 		return $show_message ? $this->get_restricted_message() : '';
+	}
+
+	/**
+	 * The editor shows restricted blocks so they can be edited, but only to
+	 * users who can edit the post. The request arguments alone are not enough.
+	 *
+	 * @return bool
+	 */
+	protected function current_user_can_edit() {
+		$post_id = get_the_ID();
+
+		return $post_id ? current_user_can( 'edit_post', $post_id ) : current_user_can( 'edit_posts' );
 	}
 
 	/**
@@ -257,7 +269,7 @@ class WPUM_Blocks {
 	public function maybe_restrict_widget( $instance, $widget, $args ) {
 		global $pagenow;
 
-		if ( ( is_admin() && isset( $pagenow ) && $pagenow == 'widgets.php' ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		if ( ( ( is_admin() && isset( $pagenow ) && $pagenow == 'widgets.php' ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) && current_user_can( 'edit_theme_options' ) ) {
 			return $instance;
 		}
 

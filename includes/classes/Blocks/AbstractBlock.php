@@ -30,7 +30,43 @@ abstract class AbstractBlock {
 	 * @return string
 	 */
 	public function render_callback( $attributes ) {
-		return call_user_func( apply_filters( 'wpum_blocks_block_callback', $this->shortcode_function, $this->name ), $attributes );
+		$output = call_user_func( apply_filters( 'wpum_blocks_block_callback', $this->shortcode_function, $this->name ), $attributes );
+
+		return is_string( $output ) ? self::escape_shortcode_brackets( $output ) : $output;
+	}
+
+	/**
+	 * Block output goes into the post content before WordPress runs shortcodes
+	 * on it, so any square brackets in it, such as a submitted value repeated in
+	 * a form error or text from a user's profile, would be parsed as shortcodes.
+	 * Encode them so they display as typed. The browser decodes the entities in
+	 * text and attribute values. Script and style contents are left as they are,
+	 * because entities are not decoded there.
+	 *
+	 * @param string $output Block output.
+	 *
+	 * @return string
+	 */
+	public static function escape_shortcode_brackets( $output ) {
+		if ( false === strpos( $output, '[' ) && false === strpos( $output, ']' ) ) {
+			return $output;
+		}
+
+		$parts = preg_split( '#(<script\b[^>]*>.*?</script>|<style\b[^>]*>.*?</style>)#is', $output, -1, PREG_SPLIT_DELIM_CAPTURE );
+
+		if ( false === $parts ) {
+			return str_replace( array( '[', ']' ), array( '&#91;', '&#93;' ), $output );
+		}
+
+		foreach ( $parts as $i => $part ) {
+			if ( 1 === $i % 2 ) {
+				continue;
+			}
+
+			$parts[ $i ] = str_replace( array( '[', ']' ), array( '&#91;', '&#93;' ), $part );
+		}
+
+		return implode( '', $parts );
 	}
 
 	public function register() {
